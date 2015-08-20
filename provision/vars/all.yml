@@ -1,0 +1,28 @@
+---
+server:
+    install: '1'
+    timezone: UTC
+    locale: en_US.UTF-8
+vagrant_local:
+    install: '1'
+    vm: { base_box: trusty64, hostname: drupaldeploy, ip: 192.168.33.99, memory: '1024', sharedfolder: ./, syncType: nfs }
+apache:
+    install: '1'
+    docroot: /vagrant
+    servername: deploy.drupal.vb
+mysql:
+    install: '1'
+    root_password: 1234qwer
+    database: drupal
+    user: drupaldeploy
+    password: druapldeploy
+    dump: ''
+redis:
+    install: '1'
+    port: '6379'
+php:
+    install: '1'
+    ppa: php5-5.6
+    packages: [php5-cli, php5-intl, php5-mcrypt, php5-mysql]
+composer:
+    install: '1'

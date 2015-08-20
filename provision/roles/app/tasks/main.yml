@@ -1,0 +1,3 @@
+---
+- name: APP | Create the application root folder
+  file: path=/var/www/drupalapp state=directory owner=vagrant

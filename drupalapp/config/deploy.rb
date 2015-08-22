@@ -13,6 +13,9 @@ set :compose_version, '1.0.0-alpha10'
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, '/var/www/drupalapp'
 
+set :make_file, 'drupalapp.make.yml'
+set :make_options, '--yes'
+
 # Default value for :scm is :git
 set :scm, :git
 
@@ -45,12 +48,25 @@ SSHKit.config.command_map[:drush] = "#{shared_path.join("vendor/bin/drush")}"
 # set :keep_releases, 5
 
 namespace :deploy do
+  after :starting, 'composer:install_executable'
+  after :starting, 'drush:install'
+
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
+      within release_path do
+        execute :rake, 'cache:clear'
+      end
+    end
+  end
+
+  before :publishing, "deploy:drupal"
+
+  task :drupal do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      within release_path do
+        execute :drush, 'make', fetch(:make_options), "#{release_path.join(fetch(:make_file))}"
+      end
     end
   end
 end
@@ -74,4 +90,4 @@ set :ssh_options, {
    keys: File.join(Dir.pwd, "..", ".vagrant", "machines", "default", "virtualbox", "private_key"),
    auth_methods: %w(publickey),
    # forward_agent: true,
- }
+}

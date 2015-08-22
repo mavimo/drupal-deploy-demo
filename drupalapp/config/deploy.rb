@@ -19,8 +19,8 @@ set :scm, :git
 # Link file settings.php
 set :linked_files, fetch(:linked_files, []).push('sites/default/settings.php')
 
-# Link dirs files and private-files
-set :linked_dirs, fetch(:linked_dirs, []).push('sites/default/files', 'private-files')
+# Link dirs files
+set :linked_dirs, fetch(:linked_dirs, []).push('sites/default/files')
 
 # Remove default composer install task on deploy:updated
 Rake::Task['deploy:updated'].prerequisites.delete('composer:install')

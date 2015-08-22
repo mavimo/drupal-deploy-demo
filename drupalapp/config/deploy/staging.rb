@@ -9,7 +9,10 @@
 
 set :deploy_to, '/var/www/drupalapp/stage'
 
-set :branch, 'master'
+SSHKit.config.command_map[:composer] = "#{shared_path.join("composer.phar")}"
+SSHKit.config.command_map[:drush] = "#{shared_path.join("vendor/bin/drush")}"
+
+set :branch, 'develop'
 
 # role-based syntax
 # ==================

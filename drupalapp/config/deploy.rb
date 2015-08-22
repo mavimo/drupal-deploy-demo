@@ -55,6 +55,21 @@ namespace :deploy do
   end
 end
 
+# Remove old drush installation task
+Rake::Task["drush:install"].clear_actions
+
+# Install drush
+namespace :drush do
+  desc "Install Drush"
+  task :install do
+    on roles(:app) do
+      within shared_path do
+        execute :composer, 'require drush/drush:~7.0.0'
+      end
+    end
+  end
+end
+
 set :ssh_options, {
    keys: File.join(Dir.pwd, "..", ".vagrant", "machines", "default", "virtualbox", "private_key"),
    auth_methods: %w(publickey),

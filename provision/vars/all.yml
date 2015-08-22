@@ -8,8 +8,11 @@ vagrant_local:
     vm: { base_box: trusty64, hostname: drupaldeploy, ip: 192.168.33.99, memory: '1024', sharedfolder: ./, syncType: nfs }
 apache:
     install: '1'
-    docroot: /vagrant
-    servername: deploy.drupal.vb
+    sites:
+      - docroot: /var/www/drupalapp/stage/current
+        servername: stage.drupal.vb
+      - docroot: /var/www/drupalapp/prod/current
+        servername: prod.drupal.vb
 mysql:
     install: '1'
     root_password: 1234qwer

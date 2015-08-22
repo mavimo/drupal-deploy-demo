@@ -18,12 +18,20 @@
 
 - name: Change default apache2.4 site
   sudo: yes
-  template: src=vhost24.conf.tpl dest=/etc/apache2/sites-available/000-default.conf
+  template: src=vhost24.conf.tpl dest=/etc/apache2/sites-available/000-{{ item.servername }}.conf
   notify: restart apache
   when: apache_version.stdout.find('Apache/2.4.') != -1
+  with_items: apache.sites
 
 - name: Change default apache2.2 site
   sudo: yes
-  template: src=vhost22.conf.tpl dest=/etc/apache2/sites-available/default
+  template: src=vhost22.conf.tpl dest=/etc/apache2/sites-available/000-{{ item.servername }}.conf
   notify: restart apache
   when: apache_version.stdout.find('Apache/2.2.') != -1
+  with_items: apache.sites
+
+- name: Enable apache2 site
+  sudo: yes
+  action: command a2ensite 000-{{ item.servername }}.conf
+  notify: restart apache
+  with_items: apache.sites

@@ -2,10 +2,10 @@
 
 <VirtualHost *:80>
     ServerAdmin webmaster@localhost
-    DocumentRoot {{ apache.docroot }}
-    ServerName {{ apache.servername }}
+    DocumentRoot {{ item.docroot }}
+    ServerName {{ item.servername }}
 
-    <Directory {{ apache.docroot }}>
+    <Directory {{ item.docroot }}>
         AllowOverride All
         Options -Indexes FollowSymLinks
         Order allow,deny

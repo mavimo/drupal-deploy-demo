@@ -5,6 +5,8 @@ set :application, 'drupalapp'
 set :repo_url, 'https://github.com/mavimo/drupal-deploy-demo.git'
 set :repo_tree, 'drupalapp'
 
+set :compose_version, '1.0.0-alpha10'
+
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 

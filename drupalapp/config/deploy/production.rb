@@ -7,6 +7,11 @@
 # server 'example.com', user: 'deploy', roles: %w{app web}, other_property: :other_value
 # server 'db.example.com', user: 'deploy', roles: %w{db}
 
+set :deploy_to, '/var/www/drupalapp/prod'
+
+SSHKit.config.command_map[:composer] = "#{shared_path.join("composer.phar")}"
+SSHKit.config.command_map[:drush] = "#{shared_path.join("vendor/bin/drush")}"
+
 set :branch, 'master'
 
 # role-based syntax

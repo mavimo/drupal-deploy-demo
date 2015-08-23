@@ -14,7 +14,6 @@ set :compose_version, '1.0.0-alpha10'
 set :deploy_to, '/var/www/drupalapp'
 
 set :make_file, 'drupalapp.make.yml'
-set :make_options, '--yes'
 
 # Default value for :scm is :git
 set :scm, :git
@@ -50,6 +49,7 @@ SSHKit.config.command_map[:drush] = "#{shared_path.join("vendor/bin/drush")}"
 namespace :deploy do
   after :starting, 'composer:install_executable'
   after :starting, 'drush:install'
+  before :publishing, "drush:make"
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -59,35 +59,10 @@ namespace :deploy do
       end
     end
   end
-
-  before :publishing, "deploy:drupal"
-
-  task :drupal do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      within release_path do
-        execute :drush, 'make', fetch(:make_options), "#{release_path.join(fetch(:make_file))}"
-      end
-    end
-  end
-end
-
-# Remove old drush installation task
-Rake::Task["drush:install"].clear_actions
-
-# Install drush
-namespace :drush do
-  desc "Install Drush"
-  task :install do
-    on roles(:app) do
-      within shared_path do
-        execute :composer, 'require drush/drush:~7.0.0'
-      end
-    end
-  end
 end
 
 set :ssh_options, {
-   keys: File.join(Dir.pwd, "..", ".vagrant", "machines", "default", "virtualbox", "private_key"),
-   auth_methods: %w(publickey),
+   keys: File.join(Dir.pwd, ".vagrant", "machines", "default", "virtualbox", "private_key"),
    # forward_agent: true,
+   auth_methods: %w(publickey),
 }

@@ -12,6 +12,10 @@ projects:
   ctools:
     version: ~
 
+  devel:
+    version: ~
+    subdir: devel
+
 defaults:
   projects:
-    subdir: "contrib"
+    subdir: contrib

@@ -53,6 +53,4 @@ Vagrant.configure("2") do |config|
     else
         config.vm.provision :shell, path: "provision/windows.sh", args: ["drupaldeploy"]
     end
-
-    config.vm.synced_folder "./", "/vagrant", type: "nfs"
 end

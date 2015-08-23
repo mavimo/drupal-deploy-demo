@@ -16,16 +16,14 @@ apache:
 mysql:
     install: '1'
     root_password: 1234qwer
-    database: drupal
-    user: drupaldeploy
-    password: druapldeploy
-    dump: ''
-redis:
-    install: '1'
-    port: '6379'
+    databases:
+      - database: drupalapp_stage
+        user: drupalapp_stage
+        password: drupalapp_stage
+      - database: drupalapp_prod
+        user: drupalapp_prod
+        password: drupalapp_prod
 php:
     install: '1'
     ppa: php5-5.6
     packages: [php5-cli, php5-intl, php5-mcrypt, php5-mysql]
-composer:
-    install: '1'

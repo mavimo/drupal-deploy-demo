@@ -4,6 +4,7 @@ lock '3.4.0'
 set :application, 'drupalapp'
 set :repo_url, 'https://github.com/mavimo/drupal-deploy-demo.git'
 set :repo_tree, 'drupalapp'
+set :app_path, ''
 
 set :compose_version, '1.0.0-alpha10'
 

@@ -36,9 +36,7 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.box = "ubuntu/trusty64"
-
     config.vm.box_url = "https://vagrantcloud.com/ubuntu/boxes/trusty64/versions/14.04/providers/virtualbox.box"
-
     config.vm.network :private_network, ip: "192.168.33.99"
     config.ssh.forward_agent = true
 
@@ -53,4 +51,6 @@ Vagrant.configure("2") do |config|
     else
         config.vm.provision :shell, path: "provision/windows.sh", args: ["drupaldeploy"]
     end
+
+    config.vm.synced_folder "./", "/vagrant", type: "nfs"
 end
